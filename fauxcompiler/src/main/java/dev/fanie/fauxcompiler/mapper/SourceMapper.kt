@@ -17,6 +17,8 @@ fun AnnotatedVariableSource<Faux>.toProperty(): Property {
 
 fun ArrayList<AnnotatedVariableSource<Faux>>.toProperties() = mutableListOf<Property>().apply {
     this@toProperties.forEach { source ->
-        add(source.toProperty())
+        this.add(
+            source.toProperty()
+        )
     }
 }
