@@ -1,6 +1,7 @@
 package dev.fanie.fauxcompiler.component
 
 import dev.fanie.fauxcompiler.CompilerContract
+import dev.fanie.fauxcompiler.builder.Builder
 import dev.fanie.fauxcompiler.entity.Property
 import dev.fanie.fauxcompiler.entity.Provider
 
@@ -8,6 +9,10 @@ class CompilerPresenter : CompilerContract.Presenter {
 
     private val providersMap: MutableMap<String, Provider> by lazy {
         mutableMapOf<String, Provider>()
+    }
+
+    private val buildersMap: MutableMap<String, Builder> by lazy {
+        mutableMapOf<String, Builder>()
     }
 
     override fun process(model: CompilerContract.Model) {
@@ -31,7 +36,31 @@ class CompilerPresenter : CompilerContract.Presenter {
         }
 
     override fun generate(view: CompilerContract.View) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        view.createSourceFiles(
+            getBuilders(
+                providersMap.values.distinct()
+            )
+        )
     }
+
+    private fun getBuilders(providers: List<Provider>) = mutableListOf<Builder>().apply {
+        providers.forEach { provider ->
+            add(
+                getBuilder(provider).apply {
+                    this.providers.add(
+                        provider
+                    )
+                }
+            )
+        }
+    }
+
+    private fun getBuilder(provider: Provider) =
+        buildersMap[provider.sourceClass] ?: createBuilder(provider)
+
+    private fun createBuilder(provider: Provider) =
+        Builder(provider.sourceClass).also {
+            buildersMap[provider.sourceClass] = it
+        }
 
 }
