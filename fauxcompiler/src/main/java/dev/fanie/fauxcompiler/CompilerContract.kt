@@ -1,5 +1,6 @@
 package dev.fanie.fauxcompiler
 
+import dev.fanie.fauxcompiler.builder.Builder
 import dev.fanie.fauxcompiler.entity.Property
 
 interface CompilerContract {
@@ -11,6 +12,8 @@ interface CompilerContract {
     }
 
     interface View {
+
+        fun createSourceFiles(builders: List<Builder>)
 
     }
 
