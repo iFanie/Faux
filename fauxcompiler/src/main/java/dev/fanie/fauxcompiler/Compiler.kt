@@ -4,9 +4,10 @@ import com.izikode.izilib.basekotlincompiler.BaseKotlinCompiler
 import dev.fanie.faux.Faux
 import dev.fanie.fauxcompiler.component.CompilerModel
 import dev.fanie.fauxcompiler.component.CompilerPresenter
+import dev.fanie.fauxcompiler.component.CompilerView
 import kotlin.reflect.KClass
 
-class FauxCompiler : BaseKotlinCompiler() {
+class Compiler : BaseKotlinCompiler() {
 
     private val presenter: CompilerPresenter by lazy { CompilerPresenter() }
 
@@ -21,7 +22,9 @@ class FauxCompiler : BaseKotlinCompiler() {
     }
 
     override val finallyHandler: FinallyHandler.() -> Unit = {
-
+        presenter.generate(
+            CompilerView(this)
+        )
     }
 
 }
