@@ -11,7 +11,8 @@ fun AnnotatedVariableSource<Faux>.toProperty(): Property {
         this.parent.info.name,
         annotation[1],
         this.info.name,
-        annotation[0]
+        annotation[0],
+        this.info.type == String::class.qualifiedName
     )
 }
 

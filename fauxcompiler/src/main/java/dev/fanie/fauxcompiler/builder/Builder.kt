@@ -13,12 +13,13 @@ class Builder(
 
     override val packageName: String = PACKAGE
 
-    override val simpleName: String = "Faux$fileName"
+    override val simpleName: String = "Faux${fileName.split(".").last()}"
 
-    override val sourceCode: String get() =
-"""package $packageName
+    override val sourceCode: String
+        get() =
+            """package $packageName
 
-    ${getProvidersSource()}
+${getProvidersSource()}
 
 """
 
@@ -33,13 +34,16 @@ class Builder(
     }
 
     private fun Provider.toSourceCode() =
-"""
-   fun ${this.name}() = ${this.sourceClass}(
-        ${this.properties.toNamedParameters()}
-   )
+        """
+fun ${this.name}() = ${this.sourceClass}(
+    ${this.properties.toNamedParameters()}
+)
 """
 
-    private fun Property.toNamedParameter() = "${this.name} = ${this.value}"
+    private fun Property.toNamedParameter() = "${this.name} = ${this.getProperValue()}"
+
+    private fun Property.getProperValue() =
+        if (this.needsQuotes) "\"${this.value}\"" else this.value
 
     private fun List<Property>.toNamedParameters() = buildString {
         this@toNamedParameters.forEachIndexed { index, property ->
