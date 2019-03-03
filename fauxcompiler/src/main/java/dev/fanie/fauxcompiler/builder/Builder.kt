@@ -7,7 +7,7 @@ import dev.fanie.fauxcompiler.entity.Provider
 class Builder(
 
     fileName: String,
-    private val providers: List<Provider>
+    val providers: MutableList<Provider> = mutableListOf()
 
 ) : AbstractKotlinClass() {
 
@@ -15,7 +15,7 @@ class Builder(
 
     override val simpleName: String = "Faux$fileName"
 
-    override val sourceCode: String =
+    override val sourceCode: String get() =
 """package $packageName
 
     ${getProvidersSource()}
