@@ -2,6 +2,7 @@ package dev.fanie.fauxapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import dev.fanie.fauxprovider.fakeStore
 import dev.fanie.fauxprovider.fakeUser
 
 class MainActivity : AppCompatActivity() {
@@ -11,5 +12,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val fu = fakeUser()
+        val fs = fakeStore()
     }
 }
